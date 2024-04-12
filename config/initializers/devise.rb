@@ -285,7 +285,7 @@ Devise.setup do |config|
     # authenticated. scope optios [:openid, :profile, :email] are valid
     scope: %i[openid profile email],
     # discovery: false tells the Provider we don't want to use Webfinger to discover the OpenID Connect
-    discovery: :true,
+    discovery: :false,
     #
     # response_type :code (Authorization Code grant) and :id_token (Implicit grant) are valid
     response_type: :code,
@@ -304,47 +304,47 @@ Devise.setup do |config|
       port: ENV.fetch('OAUTH2_KEYCLOAK_OPENID_CONNECT_PORT', 8180),
       #  The OAuth2 authorization callback url in this application
       redirect_uri:
-        ENV.fetch('OAUTH2_CLIENT_URI', 'http://0.0.0.0:3000/account/openid_connect/omniauth/callback'),
+        ENV.fetch('OAUTH2_CLIENT_URI', 'http://0.0.0.0:3000/accounts/auth/openid_connect/callback'),
       # The authorize endpoint on the authorization server
-      # authorization_endpoint:
-      #   ENV.fetch(
-      #     'OAUTH2_KEYCLOAK_OPENID_CONNECT_AUTHORIZATION_ENDPOINT',
-      #     'realms/ideacrew/protocol/openid-connect/auth'
-      #   ),
-      # # The token endpoint on the authorization server
-      # token_endpoint:
-      #   ENV.fetch(
-      #     'OAUTH2_KEYCLOAK_OPENID_CONNECT_TOKEN_ENDPOINT',
-      #     'realms/ideacrew/protocol/openid-connect/token'
-      #   ),
-      # # The userinfo endpoint on the authorization server
-      # userinfo_endpoint:
-      #   ENV.fetch(
-      #     'OAUTH2_KEYCLOAK_OPENID_CONNECT_USERINFO_ENDPOINT',
-      #     'realms/ideacrew/protocol/openid-connect/userinfo'
-      #   ),
-      # # The jwks_uri on the authorization server
-      # jwks_uri:
-      #   ENV.fetch(
-      #     'OAUTH2_KEYCLOAK_OPENID_CONNECT_JWKS_URI',
-      #     'realms/ideacrew/protocol/openid-connect/certs'
-      #   ),
-      # #  The url to call to log the user out at the authorization server
-      # end_session_endpoint:
-      #   ENV.fetch(
-      #     'OAUTH2_KEYCLOAK_OPENID_CONNECT_END_SESSION_ENDPOINT',
-      #     'realms/ideacrew/protocol/openid-connect/logout'
-      #   )
+      authorization_endpoint:
+        ENV.fetch(
+          'OAUTH2_KEYCLOAK_OPENID_CONNECT_AUTHORIZATION_ENDPOINT',
+          'realms/ideacrew/protocol/openid-connect/auth'
+        ),
+      # The token endpoint on the authorization server
+      token_endpoint:
+        ENV.fetch(
+          'OAUTH2_KEYCLOAK_OPENID_CONNECT_TOKEN_ENDPOINT',
+          'realms/ideacrew/protocol/openid-connect/token'
+        ),
+      # The userinfo endpoint on the authorization server
+      userinfo_endpoint:
+        ENV.fetch(
+          'OAUTH2_KEYCLOAK_OPENID_CONNECT_USERINFO_ENDPOINT',
+          'realms/ideacrew/protocol/openid-connect/userinfo'
+        ),
+      # The jwks_uri on the authorization server
+      jwks_uri:
+        ENV.fetch(
+          'OAUTH2_KEYCLOAK_OPENID_CONNECT_JWKS_URI',
+          'realms/ideacrew/protocol/openid-connect/certs'
+        ),
+      #  The url to call to log the user out at the authorization server
+      end_session_endpoint:
+        ENV.fetch(
+          'OAUTH2_KEYCLOAK_OPENID_CONNECT_END_SESSION_ENDPOINT',
+          'realms/ideacrew/protocol/openid-connect/logout'
+        )
     },
     # Generally provider should have Webfinger endpoint. If provider does not have Webfinger endpoint,
     # You can specify "Issuer" to option. e.g. issuer: "https://myprovider.com" It means to get configuration
     # from "https://myprovider.com/.well-known/openid-configuration".
     # issuer: ENV.fetch('OAUTH2_KEYCLOAK_OPENID_CONNECT_ISSUER', 'http://0.0.0.0:8180/realms/ideacrew'),
-    # issuer:
-    #   ENV.fetch(
-    #     'OAUTH2_KEYCLOAK_OPENID_CONNECT_ISSUER',
-    #     'http://0.0.0.0:8180/realms/ideacrew/.well-known/openid-configuration'
-    #   ),
+    issuer:
+      ENV.fetch(
+        'OAUTH2_KEYCLOAK_OPENID_CONNECT_ISSUER',
+        'http://0.0.0.0:8180/realms/ideacrew/.well-known/openid-configuration'
+      ),
     strategy_class: OmniAuth::Strategies::OpenIDConnect
   }
 
@@ -355,6 +355,10 @@ Devise.setup do |config|
   # config.warden do |manager|
   #   manager.intercept_401 = false
   #   manager.default_strategies(scope: :user).unshift :some_external_strategy
+  # end
+
+  # config.warden do |manager|
+  #   manager.failure_app = DeviseFailure
   # end
 
   # ==> Mountable engine configurations

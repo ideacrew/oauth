@@ -5,4 +5,8 @@ class ApplicationController < ActionController::Base
     binding.pry
     super
   end
+
+  def new_session_path(scope)
+    new_user_session_path
+  end
 end

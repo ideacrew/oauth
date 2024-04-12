@@ -1,0 +1,5 @@
+<%= link_to "Sign in with Keycloak", account_openid_connect_omniauth_authorize_path, method: :post %>
+
+<%= button_to "Sign in with #{OmniAuth::Utils.camelize('openid_connect')}", omniauth_authorize_path('account', 'openid_connect'), data: { turbo: false } %><br />
+
+<%#= render 'devise/shared/links', resource_name: :account %>
