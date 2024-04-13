@@ -1,0 +1,20 @@
+version: "3.4"
+
+services:
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: benefits_center
+    ports:
+      - 5432:5432
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: 'admin'
+      KEYCLOAK_ADMIN_PASSWORD: 'admin'
+    volumes:
+      - "./.docker/keycloak/ideacrew_dev.json:/opt/keycloak/data/import/realm.json"
+    command: start-dev --http-port 8180 --features token-exchange --import-realm
+    ports:
+      - "8180:8180"

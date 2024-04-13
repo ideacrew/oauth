@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak
+spec:
+  tls:
+    - hosts:
+        - keycloak.192.168.49.2.nip.io
+  rules:
+    - host: keycloak.192.168.49.2.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8080
+# minikube addons enable ingress
+# minikube start
+# minikube ip
+
+# echo "" &&
+# echo "Keycloak:                 $KEYCLOAK_URL" &&
+# echo "Keycloak Admin Console:   $KEYCLOAK_URL/admin" &&
+# echo "Keycloak Account Console: $KEYCLOAK_URL/realms/myrealm/account" &&
+# echo ""
+
+# minikube tunnel

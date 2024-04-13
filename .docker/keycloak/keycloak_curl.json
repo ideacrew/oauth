@@ -1,0 +1,8 @@
+{
+  "host": "0.0.0.0:8180",
+  "realm": "ideacrew",
+  "username": "admin",
+  "password": "admin",
+  "clientid": "sbm-service",
+  "client_secret": "7ZB6VRmAi6oxorWM3uxzuHSBMNoQ18dD"
+}
