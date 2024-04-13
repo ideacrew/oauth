@@ -2,7 +2,7 @@ class Account
   include Mongoid::Document
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :omniauthable, omniauth_providers: %i[openid_connect]
+  devise :omniauthable, omniauth_providers: %i[openid_connect]
 
   ## Database authenticatable
   field :email,              type: String, default: ""
