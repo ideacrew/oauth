@@ -268,6 +268,8 @@ Devise.setup do |config|
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
 
+  SWD.url_builder = URI::HTTP
+
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
@@ -285,7 +287,7 @@ Devise.setup do |config|
     # authenticated. scope optios [:openid, :profile, :email] are valid
     scope: %i[openid profile email],
     # discovery: false tells the Provider we don't want to use Webfinger to discover the OpenID Connect
-    discovery: :false,
+    discovery: true,
     #
     # response_type :code (Authorization Code grant) and :id_token (Implicit grant) are valid
     response_type: :code,
@@ -297,7 +299,7 @@ Devise.setup do |config|
       # The OAuth2 client ID
       identifier: ENV.fetch('OAUTH2_CLIENT_ID', 'sbm-service'),
       # The OAuth2 client secret
-      secret: ENV.fetch('OAUTH2_CLIENT_SECRET', 'GKw1oskHcObgZnLlDtIBiXdBbAiHMeeD'),
+      # secret: ENV.fetch('OAUTH2_CLIENT_SECRET', 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAouTimcO36o2PrglSTdjVLXx2hA98Vvchtmf4mfNutuy291amP1mfDkQwaLaWFUAJ34rp5l8XR2WrjHFhRcHhPSCGzfWC5o+c2qCSkh5NT/lISkRVojYzxeAi0B2hJTs1jYWZUx0JU4qlhyTC0ApkSiBGPXF0V/f8HtPLxBePiBvus5xkFx6TeJx1dSgFnWhofewFYLCVZmUsPG1eT5Eu+madevVSWpl6cb0gqeXPT6FJdRIvLqbsJNqeHMtsWqmEXcXQCNB8eHhz046T05uq73Go0ejuLTEItiYdngHV9RV18Cj8hkQ2L3m8Ljqp0lw6l2iXMw/I4kZNsBKuiKLLmQIDAQAB'),
       # Autorization server's URL components
       scheme: ENV.fetch('OAUTH2_KEYCLOAK_OPENID_CONNECT_SCHEME', 'http'),
       host: ENV.fetch('OAUTH2_KEYCLOAK_OPENID_CONNECT_HOST', '0.0.0.0'),
@@ -309,31 +311,31 @@ Devise.setup do |config|
       authorization_endpoint:
         ENV.fetch(
           'OAUTH2_KEYCLOAK_OPENID_CONNECT_AUTHORIZATION_ENDPOINT',
-          'realms/ideacrew/protocol/openid-connect/auth'
+          '/realms/ideacrew/protocol/openid-connect/auth'
         ),
       # The token endpoint on the authorization server
       token_endpoint:
         ENV.fetch(
           'OAUTH2_KEYCLOAK_OPENID_CONNECT_TOKEN_ENDPOINT',
-          'realms/ideacrew/protocol/openid-connect/token'
+          '/realms/ideacrew/protocol/openid-connect/token'
         ),
       # The userinfo endpoint on the authorization server
       userinfo_endpoint:
         ENV.fetch(
           'OAUTH2_KEYCLOAK_OPENID_CONNECT_USERINFO_ENDPOINT',
-          'realms/ideacrew/protocol/openid-connect/userinfo'
+          '/realms/ideacrew/protocol/openid-connect/userinfo'
         ),
       # The jwks_uri on the authorization server
       jwks_uri:
         ENV.fetch(
           'OAUTH2_KEYCLOAK_OPENID_CONNECT_JWKS_URI',
-          'realms/ideacrew/protocol/openid-connect/certs'
+          '/realms/ideacrew/protocol/openid-connect/certs'
         ),
       #  The url to call to log the user out at the authorization server
       end_session_endpoint:
         ENV.fetch(
           'OAUTH2_KEYCLOAK_OPENID_CONNECT_END_SESSION_ENDPOINT',
-          'realms/ideacrew/protocol/openid-connect/logout'
+          '/realms/ideacrew/protocol/openid-connect/logout'
         )
     },
     # Generally provider should have Webfinger endpoint. If provider does not have Webfinger endpoint,
@@ -343,7 +345,7 @@ Devise.setup do |config|
     issuer:
       ENV.fetch(
         'OAUTH2_KEYCLOAK_OPENID_CONNECT_ISSUER',
-        'http://0.0.0.0:8180/realms/ideacrew/.well-known/openid-configuration'
+        'http://0.0.0.0:8180/realms/ideacrew'
       ),
     strategy_class: OmniAuth::Strategies::OpenIDConnect
   }
