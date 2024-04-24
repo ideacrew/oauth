@@ -1,0 +1,107 @@
+## Reference rubocop configuration file
+
+# Direct rubocop to work nicely with syntax_tree
+inherit_gem:
+  syntax_tree: config/rubocop.yml
+
+require:
+  - rubocop-git
+  - rubocop-md
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.2
+  TargetRailsVersion: 7.1
+  StyleGuideBaseURL: https://rubystyle.guide
+  DocumentationBaseURL: https://docs.rubocop.org/rubocop
+  ActiveSupportExtensionsEnabled: true
+  SuggestExtensions: false
+  Exclude:
+    - "**/db/**/*"
+    - "**/config/**/*"
+    - "**/script/**/*"
+    - "**/bin/{rails,rake,bundle}"
+    - "**/spec/{rails_helper,spec_helper}"
+    - "**/tmp/**/*"
+    - "**/templates/**/*"
+    - "**/vendor/**/*"
+    - "**/node_modules/**/*"
+    - "**/CHANGELOG.md"
+
+# Performance:
+#   Exclude:
+#     - "**/spec/**/*"
+
+# Add one extra level of indentation after `private` or `protected` isolated method calls
+Layout/IndentationConsistency:
+  Enabled: true
+  EnforcedStyle: indented_internal_methods
+  Exclude:
+    - "**/*.md"
+
+Layout/LineLength:
+  Max: 120
+
+Lint/RedundantDirGlobSort:
+  Exclude:
+    - "**/spec/rails_helper.rb"
+
+Metrics/BlockLength:
+  Exclude:
+    - "**/spec/**/*"
+
+Style/Documentation:
+  Exclude:
+    - "**/spec/**/*"
+    - "**/app/helpers/application_helper.rb"
+    - "**/app/mailers/application_mailer.rb"
+
+Style/ExplicitBlockArgument:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+  Exclude:
+    - "activestorage/db/migrate/**/*.rb"
+    - "activestorage/db/update_migrate/**/*.rb"
+    - "actionmailbox/db/migrate/**/*.rb"
+    - "actiontext/db/migrate/**/*.rb"
+    - "**/*.md"
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either
+
+# Defining a method with parameters needs parentheses.
+Style/MethodDefParentheses:
+  Enabled: true
+
+Style/QuotedSymbols:
+  EnforcedStyle: same_as_string_literals
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+# Use lazy loading hooks rather than direct (order-dependent) patching
+Rails/ActiveSupportOnLoad:
+  Enabled: true
+
+# Disable false positives encountered using MongoDB methods
+Rails/ActiveRecordAliases:
+  Enabled: false
+
+Rails/DeprecatedActiveModelErrorsMethods:
+  Enabled: false
+
+# Don't impose limit on number of lines in an example
+RSpec/ExampleLength:
+  Enabled: false
+
+# Disable limit on rspec let(:var) usage
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
